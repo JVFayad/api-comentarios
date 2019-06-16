@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/', function () {
+    return response()->json(['message' => 'API Comentários', 'status' => 'Connected']);;
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('comments', 'CommentsController');
