@@ -14,13 +14,19 @@ class Comment extends Model
         'deleted_at'
     ];
 
-    # Retorna o Usuario que fez a Comentario
+    # Retorna o usuario que fez o Comentario
     function user() {
         return $this->belongsTo('App\User');
     }
 
-    # Retorna o Post referente a este Comentario
+    # Retorna a postagem referente a este comentario
     function post() {
         return $this->belongsTo('App\Post');
+    }
+
+    # Retorna todas as notificacoes do comentario
+    public function notifications()
+    {
+        return $this->hasMany('App\Notification');
     }
 }

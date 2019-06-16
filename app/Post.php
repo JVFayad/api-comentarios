@@ -14,8 +14,20 @@ class Post extends Model
         'deleted_at'
     ];
 
-    # Retorna o Usuario que fez a postagem
+    # Retorna o usuario que fez a postagem
     function user() {
         return $this->belongsTo('App\User');
+    }
+
+    # Retorna todos os comentários da postagem
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
+    # Retorna todas as notificacoes da postagem
+    public function notifications()
+    {
+        return $this->hasMany('App\Notification');
     }
 }
