@@ -23,8 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 # Rotas Comentários
 Route::get('comments', 'CommentsController@index');
-Route::get('comments/post/{post}', 'CommentsController@index_user');
-Route::get('comments/user/{user}', 'CommentsController@index_post');
+Route::get('comments/post/{post}', 'CommentsController@index_post');
+Route::get('comments/user/{user}', 'CommentsController@index_user');
 //Route::get('comments/{comment}', 'CommentsController@show');
 Route::post('comments', 'CommentsController@store');
 //Route::put('comments/{comment}', 'CommentsController@update');
