@@ -12,12 +12,28 @@ use App\Notification;
 
 class CommentsController extends Controller
 {
+    # Lista todos comentários
     public function index()
     {
         $comments = Comment::with('post', 'user')->get();
         return response()->json($comments);
     }
 
+    # Lista todos comentários de uma postagem
+    public function index_post()
+    {
+        $comments = Comment::with('post', 'user')->get();
+        return response()->json($comments);
+    }
+
+    # Lista todos comentários de um usuário
+    public function index_user()
+    {
+        $comments = Comment::with('post', 'user')->get();
+        return response()->json($comments);
+    }
+
+    # Cria novo comentário
     public function store(Request $request)
     {
         $highlight = FALSE;
@@ -84,5 +100,19 @@ class CommentsController extends Controller
         $notification->save();
 
         return response()->json($comment, 201);
+    }
+
+    # Deleta comentário
+    public function destroy($id)
+    {
+        $comment = Comment::find($id);
+
+        if(!$comment) {
+            return response()->json([
+                'message'   => 'Comentário não encontrado',
+            ], 404);
+        }
+
+        $comment->delete();
     }
 }
