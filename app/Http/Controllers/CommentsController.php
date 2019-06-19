@@ -19,6 +19,38 @@ class CommentsController extends Controller
         return response()->json($comments);
     }
 
+    # Ordena e formata o conteudo de retorno de listagem da api
+    private function order_content($comments)
+    {
+        $content_array = array();
+
+        # cria a estrutura de retorno e que
+        # auxiliara na ordenacao por destaque
+        foreach($comments as $comment) {
+            $comment_user = $comment->user;
+            $content = array(
+                'user_id' => $comment->user_id,
+                'id' => $comment->id,
+                'login' => $comment_user->login,
+                'subscriber' => (bool) $comment_user->subscriber,
+                'highlight' => (bool) $comment->highlight,
+                'still_highlight' => $comment->still_highlight(),
+                'date_created' =>  $comment->created_at->format('d-m-Y H:i:s'),
+                'content' => $comment->content, 
+            );
+            
+            $content_array[] = $content;
+        }
+
+        # ordena pela prioridade criada
+        # para o destaque
+        usort ($content_array, function ($left, $right) {
+            return $right['still_highlight'] - $left['still_highlight'];
+        });
+
+        return $content_array;
+    }
+
     # Lista todos comentários de uma postagem
     public function index_post($post_id)
     {
@@ -31,36 +63,26 @@ class CommentsController extends Controller
                 'highlight_value', 'desc'
             )->get();
         
-        $content_array = array();
-
-        foreach($comments as $comment) {
-            $comment_user = $comment->user;
-            $content = array(
-                'user_id' => $comment->user_id,
-                'id' => $comment->id,
-                'login' => $comment_user->login,
-                'subscriber' => (bool) $comment_user->subscriber,
-                'highlight' => (bool) $comment->highlight,
-                'still_highlight' => $comment->still_highlight(),
-                'datetime' =>  $comment->created_at->format('d-m-Y H:i:s'),
-                'content' => $comment->content, 
-            );
-            
-            $content_array[] = $content;
-        }
-
-        usort ($content_array, function ($left, $right) {
-            return $right['still_highlight'] - $left['still_highlight'];
-        });
+        $content_array = $this->order_content($comments);
 
         return response()->json($content_array);
     }
 
     # Lista todos comentários de um usuário
-    public function index_user()
+    public function index_user($user_id)
     {
-        $comments = Comment::with('post', 'user')->get();
-        return response()->json($comments);
+        $comments = Comment::with('post', 'user'
+            )->where(
+                'user_id', $user_id
+            )->orderBy(
+                'created_at', 'desc'
+            )->orderBy(
+                'highlight_value', 'desc'
+            )->get();
+        
+        $content_array = $this->order_content($comments);
+
+        return response()->json($content_array);
     }
 
     # Cria novo comentário
