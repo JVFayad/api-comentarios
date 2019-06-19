@@ -30,6 +30,8 @@ class Comment extends Model
         return $this->hasMany('App\Notification');
     }
 
+    # Verifica se o comentario ainda
+    # deve ser colocado em destaque
     public function still_highlight() 
     {
         if ($this->highlight) {
