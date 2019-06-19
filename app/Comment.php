@@ -29,4 +29,14 @@ class Comment extends Model
     {
         return $this->hasMany('App\Notification');
     }
+
+    public function still_highlight() 
+    {
+        if ($this->highlight) {
+            $dt_highlight = $this->created_at->addMinutes($this->highlight_value);
+            return $dt_highlight >= \Carbon\Carbon::now();
+        }
+
+        return FALSE;
+    }
 }

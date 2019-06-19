@@ -20,10 +20,40 @@ class CommentsController extends Controller
     }
 
     # Lista todos comentários de uma postagem
-    public function index_post()
+    public function index_post($post_id)
     {
-        $comments = Comment::with('post', 'user')->get();
-        return response()->json($comments);
+        $comments = Comment::with('post', 'user'
+            )->where(
+                'post_id', $post_id
+            )->orderBy(
+                'created_at', 'desc'
+            )->orderBy(
+                'highlight_value', 'desc'
+            )->get();
+        
+        $content_array = array();
+
+        foreach($comments as $comment) {
+            $comment_user = $comment->user;
+            $content = array(
+                'user_id' => $comment->user_id,
+                'id' => $comment->id,
+                'login' => $comment_user->login,
+                'subscriber' => (bool) $comment_user->subscriber,
+                'highlight' => (bool) $comment->highlight,
+                'still_highlight' => $comment->still_highlight(),
+                'datetime' =>  $comment->created_at->format('d-m-Y H:i:s'),
+                'content' => $comment->content, 
+            );
+            
+            $content_array[] = $content;
+        }
+
+        usort ($content_array, function ($left, $right) {
+            return $right['still_highlight'] - $left['still_highlight'];
+        });
+
+        return response()->json($content_array);
     }
 
     # Lista todos comentários de um usuário
