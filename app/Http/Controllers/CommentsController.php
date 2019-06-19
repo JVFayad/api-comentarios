@@ -24,11 +24,11 @@ class CommentsController extends Controller
     {
         $content_array = array();
 
-        # cria a estrutura de retorno e que
+        # Cria a estrutura de retorno e que
         # auxiliara na ordenacao por destaque
         foreach($comments as $comment) {
             $comment_user = $comment->user;
-            $content = array(
+            $content_array[] = array(
                 'user_id' => $comment->user_id,
                 'id' => $comment->id,
                 'login' => $comment_user->login,
@@ -38,11 +38,9 @@ class CommentsController extends Controller
                 'date_created' =>  $comment->created_at->format('d-m-Y H:i:s'),
                 'content' => $comment->content, 
             );
-            
-            $content_array[] = $content;
         }
 
-        # ordena pela prioridade criada
+        # Ordena pela prioridade criada
         # para o destaque
         usort ($content_array, function ($left, $right) {
             return $right['still_highlight'] - $left['still_highlight'];
