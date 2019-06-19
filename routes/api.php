@@ -29,3 +29,6 @@ Route::get('comments/user/{user}', 'CommentsController@index_user');
 Route::post('comments', 'CommentsController@store');
 //Route::put('comments/{comment}', 'CommentsController@update');
 Route::delete('comments/{comment}', 'CommentsController@delete');
+
+# Rota Notificacao
+Route::get('notifications/user/{user}', 'NotificationsController@index_user');

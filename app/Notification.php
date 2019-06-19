@@ -23,4 +23,12 @@ class Notification extends Model
     function comment() {
         return $this->belongsTo('App\Comment');
     }
+
+    # Retorna se a notificacao ja expirou
+    # ou nao: expira 2 horas depois
+    public function expired() {
+        $dt_expires = $this->created_at->addHours(2);
+
+        return $dt_expires < \Carbon\Carbon::now();
+    }
 }
