@@ -22,6 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 # Rotas Comentários
+// Listar todos os comentários
+Route::get('comments', 'CommentsController@index');
 // Listar comentários por postagem
 Route::get('comments/post/{post}', 'CommentsController@index_post'); 
 // Listar comentários por usúario
