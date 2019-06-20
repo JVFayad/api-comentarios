@@ -115,6 +115,7 @@ class CommentsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
+                "status" => 400,
                 "message" => $validator->messages()->all(),
             ], 400);
         }
@@ -127,7 +128,8 @@ class CommentsController extends Controller
 
         if ($last_comments >= 10) {
             return response()->json([
-                'message' => 'O limite de comentários em um determinado tempo foi excedido',
+                "status" => 429,
+                "message" => "O limite de comentários em um determinado tempo foi excedido",
             ], 429);
         }
 
@@ -158,7 +160,8 @@ class CommentsController extends Controller
     
             } else {
                 return response()->json([
-                    'message' => 'Não há dinheiro suficiente para esta compra de destaque',
+                    "status" => 405,
+                    "message" => "Não há dinheiro suficiente para esta compra de destaque",
                 ], 405);
             }
         }
@@ -171,7 +174,8 @@ class CommentsController extends Controller
             && !$highlight
         ) {
             return response()->json([
-                'message' => 'Os usuários não são assinantes, e nao houve compra de destaque',
+                "status" => 405,
+                "message" => "Os usuários não são assinantes, e nao houve compra de destaque",
             ], 405);
         }
 
@@ -196,7 +200,8 @@ class CommentsController extends Controller
 
         if(!$comment) {
             return response()->json([
-                'message'   => 'Comentário não encontrado',
+                "status" => 404,
+                "message" => "Comentário não encontrado",
             ], 404);
         }
 
@@ -207,7 +212,8 @@ class CommentsController extends Controller
             $comment->delete();
         } else {
             return response()->json([
-                'message'   => 'Você não pode apagar este comentário',
+                "status" => 405,
+                "message" => "Você não pode apagar este comentário",
             ], 405);
         }
     }
