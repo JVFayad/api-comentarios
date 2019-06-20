@@ -21,18 +21,33 @@ Postagens de Teste:
 1. id: 1 / content: "Postagem de testes" / type: "text" / user_id: 1
 2. id: 2 / content: "Postagem de testes 2" / type: "text" / user_id: 2
 
-COLOCAR SEEDS
-
 Por uma padronização de projetos Laravel e criação de componentes, deixe o nome das tabelas e atributos em inglês, mas fiz da maneira que achei mais intuitiva e correta possível.
+
+Sobre a API, para autenticação, utilizei Basic Auth, baseada no email e senha do usuário. As chamadas só poderão ser realizadas por um usuário cadastrado, do contrário não será autorizado.
+
+Todos os endpoints de listagem possuem paginação, então caso queira uma pagina especifica, é só inserir "?page=x" ao final da url. As informações de número da página e total de páginas estarão no início do json de retorno. 
+
+Utilizei o Postman para testes, mas coloquei as chamadas com curl caso queiram utilizar.
 
 Os Endpoints:
 
 # Comentar
+curl --user email:password -X POT http://localhost:8000/api/comments/
+-d {
+	"content": "Conteúdo"
+	"type": "texto", // tipo da postagem
+	"highlight_value": 5, // valor do destaque: se não for pra comprar destaque, passar como 0
+	"post_id": 1 // id da postagem relacionada
+}
 
 # Listar comentarios de um Usuário
+curl --user email:password -X GET http://localhost:8000/api/comments/user/{user_id}
 
 # Listar comentários de uma Postagem
+curl --user email:password -X GET http://localhost:8000/api/comments/post/{post_id}
 
 # Remover comentário
+curl --user email:password -X GET http://localhost:8000/api/comments/{comment_id}
 
 # Listar notificações de um usuário
+curl --user email:password -X GET http://localhost:8000/api/notifications/user/{user_id}
