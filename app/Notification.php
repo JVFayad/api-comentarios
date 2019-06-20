@@ -32,7 +32,7 @@ class Notification extends Model
         return $dt_expires < \Carbon\Carbon::now();
     }
 
-    # Cria uma notificacao
+    # Cria a notificacao
     public function createNotification($post_id, $comment_id) 
     {
         $this->post_id = $post_id;

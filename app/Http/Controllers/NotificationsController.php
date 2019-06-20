@@ -10,6 +10,7 @@ use App\Comment;
 
 class NotificationsController extends Controller
 {
+    # Lista notificações por usuário
     public function index_user($user_id)
     {
         $notifications = Notification::with('post', 'comment'
@@ -29,6 +30,8 @@ class NotificationsController extends Controller
             'notifications' => array(),
         );
 
+        # Só adiciona no array de retorno as notificações
+        # que não estão expiradas
         foreach($notifications as $notification) {
             if (!$notification->expired()) {
                 $content_array['notifications'][] = array(
