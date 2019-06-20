@@ -1,15 +1,19 @@
+<h1>API Comentários</h1>
+
 Este projeto foi desenvolvido utilizando basicamente:
-    - PHP 
-    - Laravel 
-    - MySQL80 
+```
+    - PHP 7.1.30
+    - Laravel Framework 5.8.23 
+    - MySQL 8.0.13 
+```
 
-O Projeto não está totalmente completo, embora sua maior parte esteja. Algumas partes como o envio de email e otimização, não estão prontas, pois não tive tempo de finalizar. Certas coisas que foram pedidas na proposta eu desensolvi da maneira que interpretei e achei ser melhor, incluse estou aberto para o feedback caso eu tenho feito/entendido algo errado.
+O Projeto não está totalmente completo, embora sua maior parte esteja. Algumas partes como o envio de email e otimização não estão prontas, pois não tive tempo de finalizar. Certas coisas que foram pedidas na prova eu desensolvi da maneira que interpretei e achei ser melhor, incluse estou aberto para o feedback caso eu tenho feito/entendido algo errado.
 
-Este foi meu primeiro projeto em PHP/Laravel. Tentei seguir os padrões do framework, então a estrutura do projeto eu mantive basicamente a mesma de quando ele é criado.
+Este foi meu primeiro projeto em PHP/Laravel. Tentei seguir os padrões MVC do framework, então a estrutura do projeto eu mantive basicamente a mesma de quando ele é criado, com os models localizados dentro de "app/", os controllers em "app/Http/Controllers", as migrations e seeds em "database/", as rotas em "routes/api.php", entre outros. 
 
 Não utilizei nenhuma tecnologia externa de contêineres, pois vi que o Laravel já tem algumas ferramentas para isso e é relativamente simples de rodar (pretendia utilizar docker e afins mas, por causa do tempo e a não familiaridade com as tecnologias do projeto, acabei priorizando desenvolver a API em si). As unicos procedimentos que terão que ser feitos, são alterar as configurações de conexão do banco, no arquivo ".env", para o que for criado para os testes (create database x), além dos outros passos, que eu não descreverei aqui, mas indicarei o tutorial abaixo, que explica muito bem cada um.
 
-Tutorial passo a passo: https://devmarketer.io/learn/setup-laravel-project-cloned-github-com/
+Tutorial: https://devmarketer.io/learn/setup-laravel-project-cloned-github-com/
 
 Obs: Coloquei seeds para popular o banco com usuarios e postagens, pois não existem endpointas para isso, e eles são necessários para teste, então é importante rodar o comando de seeds do tutorial.
 
@@ -31,10 +35,10 @@ Utilizei o Postman para testes, mas coloquei as chamadas com curl caso queiram u
 
 Os Endpoints:
 
-<h3>Comentar<h3>
+<h3>Comentar</h3>
 <h5>
 curl http://localhost:8000/api/comments/ --user joao.teste@gmail.com:senha -H "Content-type:application/json" -X POST -d @json.txt
-<h5>
+</h5>
 
 Conteúdo do arquivo json.txt:
 ```json
@@ -46,16 +50,24 @@ Conteúdo do arquivo json.txt:
 }
 ```
 
-# Listar comentarios de um Usuário
+<h3>Listar comentarios de um Usuário</h3>
+<h5>
 curl --user email:password -X GET http://localhost:8000/api/comments/user/{user_id}
+</h5>
 
-# Listar comentários de uma Postagem
+<h3>Listar comentários de uma Postagem</h3>
+<h5>
 curl --user email:password -X GET http://localhost:8000/api/comments/post/{post_id}
+</h5>
 
-# Remover comentário
+<h3>Remover comentário</h3>
+<h5>
 curl --user email:password -X DELETE http://localhost:8000/api/comments/{comment_id}
+</h5>
 
-# Listar notificações de um usuário
+<h3>Listar notificações de um usuário</h3>
+<h5>
 curl --user email:password -X GET http://localhost:8000/api/notifications/user/{user_id}
+</h5>
 
 Se tiverem quaisquer dúvidas podem entrar em contato comigo.
