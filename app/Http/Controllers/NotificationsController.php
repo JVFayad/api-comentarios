@@ -12,8 +12,6 @@ class NotificationsController extends Controller
 {
     public function index_user($user_id)
     {
-        $content_array = array();
-
         $notifications = Notification::with('post', 'comment'
             )->whereIn(
                 'post_id', Post::where(
@@ -23,11 +21,17 @@ class NotificationsController extends Controller
                     'user_id', $user_id)->get()->pluck('id')
             )->orderBy(
                 'created_at', 'desc'
-        )->get();
+        )->paginate(5);
+
+        $content_array = array(
+            'page' => $notifications->currentPage(),
+            'total_pages' => $notifications->lastPage(),
+            'notifications' => array(),
+        );
 
         foreach($notifications as $notification) {
             if (!$notification->expired()) {
-                $content_array[] = array(
+                $content_array['notifications'][] = array(
                     "id" => $notification->id,
                     "comment_id" => $notification->comment_id,
                     "comment_user_id" => $notification->comment->user_id,
