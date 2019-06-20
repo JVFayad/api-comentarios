@@ -22,13 +22,19 @@ class CommentsController extends Controller
     # Ordena e formata o conteudo de retorno de listagem da api
     private function order_content($comments)
     {
-        $content_array = array();
+        # Paginacao de 5 comentarios por chamada
+        $comments = $comments->paginate(5);
+        $content_array = array(
+            'page' => $comments->currentPage(),
+            'total_pages' => $comments->lastPage(),
+            'comments' => array(),
+        );
 
         # Cria a estrutura de retorno e que
         # auxiliara na ordenacao por destaque
         foreach($comments as $comment) {
             $comment_user = $comment->user;
-            $content_array[] = array(
+            $content_array['comments'][] = array(
                 'user_id' => $comment->user_id,
                 'id' => $comment->id,
                 'login' => $comment_user->login,
@@ -42,7 +48,7 @@ class CommentsController extends Controller
 
         # Ordena pela prioridade criada
         # para o destaque
-        usort ($content_array, function ($left, $right) {
+        usort ($content_array['comments'], function ($left, $right) {
             return $right['still_highlight'] - $left['still_highlight'];
         });
 
@@ -59,7 +65,7 @@ class CommentsController extends Controller
                 'created_at', 'desc'
             )->orderBy(
                 'highlight_value', 'desc'
-            )->get();
+            );
         
         $content_array = $this->order_content($comments);
 
@@ -76,7 +82,7 @@ class CommentsController extends Controller
                 'created_at', 'desc'
             )->orderBy(
                 'highlight_value', 'desc'
-            )->get();
+            );
         
         $content_array = $this->order_content($comments);
 
