@@ -27,17 +27,19 @@ Sobre a API, para autenticação, utilizei Basic Auth, baseada no email e senha 
 
 Todos os endpoints de listagem possuem paginação, então caso queira uma pagina especifica, é só inserir "?page=x" ao final da url. As informações de número da página e total de páginas estarão no início do json de retorno. 
 
-Utilizei o Postman para testes, mas coloquei as chamadas com curl caso queiram utilizar.
+Utilizei o Postman para testes, mas coloquei as chamadas com curl caso queiram utilizar (curl realizado no Windows).
 
 Os Endpoints:
 
 # Comentar
-curl --user email:password -X POT http://localhost:8000/api/comments/
--d {
-	"content": "Conteúdo"
-	"type": "texto", // tipo da postagem
-	"highlight_value": 5, // valor do destaque: se não for pra comprar destaque, passar como 0
-	"post_id": 1 // id da postagem relacionada
+curl http://localhost:8000/api/comments/ --user joao.teste@gmail.com:senha -H "Content-type:application/json" -X POST -d @json.txt
+
+Conteúdo do arquivo json.txt:
+{
+   "content":"Conteúdo",  // Conteúdo do comentário
+   "type":"texto",        // Tipo do comentário
+   "highlight_value":5,   // Valor de destaque (se não houver compra de destaque, passar 0)
+   "post_id":1            // ID da postagem relacionada
 }
 
 # Listar comentarios de um Usuário
@@ -47,7 +49,9 @@ curl --user email:password -X GET http://localhost:8000/api/comments/user/{user_
 curl --user email:password -X GET http://localhost:8000/api/comments/post/{post_id}
 
 # Remover comentário
-curl --user email:password -X GET http://localhost:8000/api/comments/{comment_id}
+curl --user email:password -X DELETE http://localhost:8000/api/comments/{comment_id}
 
 # Listar notificações de um usuário
 curl --user email:password -X GET http://localhost:8000/api/notifications/user/{user_id}
+
+Se tiverem quaisquer dúvidas podem entrar em contato comigo.
