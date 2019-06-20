@@ -16,5 +16,11 @@ class PostsSeed extends Seeder
             'type' => 'text',
             'user_id' => 1,
         ]);
+
+        App\Post::create([
+            'content' => 'Postagem de testes 2.',
+            'type' => 'text',
+            'user_id' => 2,
+        ]);
     }
 }

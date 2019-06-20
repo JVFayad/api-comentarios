@@ -19,5 +19,14 @@ class UsersSeed extends Seeder
             'subscriber' => TRUE,
             'cash' => 100.0
         ]);
+
+        App\User::create([
+            'name' => 'Pedro Teste',
+            'email' => 'pedro.teste@gmail.com',
+            'password' => bcrypt('senha'),
+            'login' => 'pedro_teste',
+            'subscriber' => FALSE,
+            'cash' => 10.0
+        ]);
     }
 }
