@@ -10,6 +10,8 @@ use App\Post;
 use App\Transaction;
 use App\Notification;
 
+use Illuminate\Support\Facades\Validator;
+
 class CommentsController extends Controller
 {
     # Lista todos comentários
@@ -20,7 +22,7 @@ class CommentsController extends Controller
     }
 
     # Ordena e formata o conteudo de retorno de listagem da api
-    private function order_content($comments)
+    private function orderContent($comments)
     {
         # Paginacao de 5 comentarios por chamada
         $comments = $comments->paginate(5);
@@ -67,7 +69,7 @@ class CommentsController extends Controller
                 'highlight_value', 'desc'
             );
         
-        $content_array = $this->order_content($comments);
+        $content_array = $this->orderContent($comments);
 
         return response()->json($content_array);
     }
@@ -84,15 +86,40 @@ class CommentsController extends Controller
                 'highlight_value', 'desc'
             );
         
-        $content_array = $this->order_content($comments);
+        $content_array = $this->orderContent($comments);
 
         return response()->json($content_array);
+    }
+
+    # Função responsavel por validar se todos
+    # os dados do comentario foram enviados
+    # TODO: Fazer atraves do requests (tentei mas apresentou problemas)
+    private function commentValidator($request) 
+    {
+
+        $validator = Validator::make($request->all(), [
+            'content' => 'required',
+            'type' => 'required|max:8',
+            'highlight_value' => 'required',
+            'user_id' => 'required',
+            'post_id' => 'required',
+        ]);
+
+        return $validator;
     }
 
     # Cria novo comentário
     public function store(Request $request)
     {
         $highlight = FALSE;
+        $validator = $this->commentValidator($request);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "message" => $validator->messages()->all(),
+            ], 400);
+        }
+
         $params = $request->all();
         $comment_user = User::find($params['user_id']);
         $comment_post = Post::find($params['post_id']);
