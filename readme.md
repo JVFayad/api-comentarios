@@ -44,8 +44,8 @@ Utilizei o Postman para testes, mas coloquei as chamadas com curl caso queiram u
 curl http://localhost:8000/api/comments/ --user joao.teste@gmail.com:senha -H "Content-type:application/json" -X POST -d @json.txt
 </h5>
 
-Conteúdo do arquivo json.txt:
-```json
+Conteúdo do arquivo json.txt (os comentários foram colocados para matéria de explicação dos parâmetros, não estão no arquivo original):
+```
 {
    "content":"Conteúdo",  // Conteúdo do comentário
    "type":"texto",        // Tipo do comentário
