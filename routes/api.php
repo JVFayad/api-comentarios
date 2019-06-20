@@ -22,13 +22,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 # Rotas Comentários
-Route::get('comments', 'CommentsController@index');
-Route::get('comments/post/{post}', 'CommentsController@index_post');
-Route::get('comments/user/{user}', 'CommentsController@index_user');
-//Route::get('comments/{comment}', 'CommentsController@show');
-Route::post('comments', 'CommentsController@store');
-//Route::put('comments/{comment}', 'CommentsController@update');
-Route::delete('comments/{comment}', 'CommentsController@delete');
+// Listar comentários por postagem
+Route::get('comments/post/{post}', 'CommentsController@index_post'); 
+// Listar comentários por usúario
+Route::get('comments/user/{user}', 'CommentsController@index_user'); 
+// Criar comentário
+Route::post('comments', 'CommentsController@store'); 
+// Deletar comentário
+Route::delete('comments/{comment}', 'CommentsController@delete'); 
 
 # Rota Notificacao
-Route::get('notifications/user/{user}', 'NotificationsController@index_user');
+// Listar notificacoes por usúario
+Route::get('notifications/user/{user}', 'NotificationsController@index_user'); 
