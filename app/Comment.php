@@ -41,4 +41,11 @@ class Comment extends Model
 
         return FALSE;
     }
+
+    # Cria o comentário
+    public function createComment($params) 
+    {
+        $this->fill($params);
+        $this->save();
+    }
 }

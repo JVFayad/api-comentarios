@@ -150,13 +150,13 @@ class CommentsController extends Controller
     
                 # Se for possivel comprar destaque, gera a transação para historico
                 $transaction = new Transaction();
-                $transaction->value = $params['highlight_value'];
-                $transaction->user_id = $comment_user->id;
-                $transaction->save();
+                $transaction->createTransaction(
+                    $params['highlight_value'],
+                    $comment_user->id
+                );
 
                 # Desconta o valor da transacao do dinheiro que o usuario possui
-                $comment_user->cash -= $params['highlight_value'];
-                $comment_user->save();
+                $comment_user->discountCash($params['highlight_value']);
     
             } else {
                 return response()->json([
@@ -179,15 +179,13 @@ class CommentsController extends Controller
             ], 405);
         }
 
+        # Cria o comentario
         $comment = new Comment();
-        $comment->fill($params);
-        $comment->save();
+        $comment->createComment($params);
 
-        // Antes de retornar, cria a notificacao
+        # Antes de retornar, cria a notificacao
         $notification = new Notification();
-        $notification->post_id = $comment_post->id;
-        $notification->comment_id = $comment->id;
-        $notification->save();
+        $notification->createNotification($comment_post->id, $comment->id);
 
         return response()->json($comment, 201);
     }

@@ -43,4 +43,11 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Transaction');
     }
+
+    # Desconta um valor do dinheiro de um usuario
+    public function discountCash($cash_discount)
+    {
+        $this->cash -= $cash_discount;
+        $this->save();
+    }
 }

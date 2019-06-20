@@ -31,4 +31,14 @@ class Notification extends Model
 
         return $dt_expires < \Carbon\Carbon::now();
     }
+
+    # Cria uma notificacao
+    public function createNotification($post_id, $comment_id) 
+    {
+        $this->post_id = $post_id;
+        $this->comment_id = $comment_id;
+        $this->save();
+
+        // Mandar email
+    }
 }

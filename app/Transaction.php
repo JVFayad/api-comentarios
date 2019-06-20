@@ -18,4 +18,12 @@ class Transaction extends Model
     function user() {
         return $this->belongsTo('App\User');
     }
+
+    # Cria uma transacao
+    public function createTransaction($highlight_value, $user_id) 
+    {
+        $this->value = $highlight_value;
+        $this->user_id = $user_id;
+        $this->save();
+    }
 }
