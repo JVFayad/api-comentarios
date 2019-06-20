@@ -7,11 +7,19 @@ O Projeto não está totalmente completo, embora sua maior parte esteja. Algumas
 
 Este foi meu primeiro projeto em PHP/Laravel. Tentei seguir os padrões do framework, então a estrutura do projeto eu mantive basicamente a mesma de quando ele é criado.
 
-Não utilizei nenhuma tecnologia externa de contêineres, pois vi que o Laravel já tem algumas ferramentas para isso e é relativamente simples de rodar. As unicas coisas que serão necessárias de ser feitas, são alterar as configurações de conexão do banco, no arquivo ".env", para o que for criado para os testes.
+Não utilizei nenhuma tecnologia externa de contêineres, pois vi que o Laravel já tem algumas ferramentas para isso e é relativamente simples de rodar (pretendia utilizar docker e afins mas, por causa do tempo e a não familiaridade com as tecnologias do projeto, acabei priorizando desenvolver a API em si). As unicos procedimentos que terão que ser feitos, são alterar as configurações de conexão do banco, no arquivo ".env", para o que for criado para os testes (create database x), além dos outros passos, que eu não descreverei aqui, mas indicarei o tutorial abaixo, que explica muito bem cada um.
 
-Um tutorial bem legal que achei com o passo a passo: https://devmarketer.io/learn/setup-laravel-project-cloned-github-com/
+Tutorial passo a passo: https://devmarketer.io/learn/setup-laravel-project-cloned-github-com/
 
-Obs: Coloquei seeds para popular o banco com usuarios e postagens, pois não existem endpointas para isso, e eles são necessários para teste
+Obs: Coloquei seeds para popular o banco com usuarios e postagens, pois não existem endpointas para isso, e eles são necessários para teste, então é importante rodar o comando de seeds do tutorial.
+
+Usuários de Teste:
+1. id: 1 / name: "Joao Teste" / email: "joao.teste@gmail.com" / password: "senha" / login: "joao_teste" / subscriber: TRUE / cash: 100 
+2. id: 2 / name: "Pedro Teste" / email: "pedro.teste@gmail.com" / password: "senha" / login: "pedro_teste" / subscriber: FALSE / cash: 10 
+
+Postagens de Teste:
+1. id: 1 / content: "Postagem de testes" / type: "text" / user_id: 1
+2. id: 2 / content: "Postagem de testes 2" / type: "text" / user_id: 2
 
 COLOCAR SEEDS
 
