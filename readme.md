@@ -31,16 +31,20 @@ Utilizei o Postman para testes, mas coloquei as chamadas com curl caso queiram u
 
 Os Endpoints:
 
-# Comentar
+<h3>Comentar<h3>
+<h5>
 curl http://localhost:8000/api/comments/ --user joao.teste@gmail.com:senha -H "Content-type:application/json" -X POST -d @json.txt
+<h5>
 
 Conteúdo do arquivo json.txt:
+```json
 {
    "content":"Conteúdo",  // Conteúdo do comentário
    "type":"texto",        // Tipo do comentário
    "highlight_value":5,   // Valor de destaque (se não houver compra de destaque, passar 0)
    "post_id":1            // ID da postagem relacionada
 }
+```
 
 # Listar comentarios de um Usuário
 curl --user email:password -X GET http://localhost:8000/api/comments/user/{user_id}
