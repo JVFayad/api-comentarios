@@ -23,16 +23,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 # Rotas Comentários
 // Listar todos os comentários
-Route::get('comments', 'CommentsController@index');
+Route::get('comments', 'CommentsController@index')->middleware('auth.basic');
 // Listar comentários por postagem
-Route::get('comments/post/{post}', 'CommentsController@index_post'); 
+Route::get('comments/post/{post}', 'CommentsController@index_post')->middleware('auth.basic'); 
 // Listar comentários por usúario
-Route::get('comments/user/{user}', 'CommentsController@index_user'); 
+Route::get('comments/user/{user}', 'CommentsController@index_user')->middleware('auth.basic'); 
 // Criar comentário
-Route::post('comments', 'CommentsController@store'); 
+Route::post('comments', 'CommentsController@store')->middleware('auth.basic'); 
 // Deletar comentário
-Route::delete('comments/{comment}', 'CommentsController@delete'); 
+Route::delete('comments/{comment}', 'CommentsController@destroy')->middleware('auth.basic'); 
 
 # Rota Notificacao
 // Listar notificacoes por usúario
-Route::get('notifications/user/{user}', 'NotificationsController@index_user'); 
+Route::get('notifications/user/{user}', 'NotificationsController@index_user')->middleware('auth.basic'); 

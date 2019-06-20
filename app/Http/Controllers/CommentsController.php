@@ -101,7 +101,6 @@ class CommentsController extends Controller
             'content' => 'required',
             'type' => 'required|max:8',
             'highlight_value' => 'required',
-            'user_id' => 'required',
             'post_id' => 'required',
         ]);
 
@@ -120,10 +119,6 @@ class CommentsController extends Controller
             ], 400);
         }
 
-        $params = $request->all();
-        $comment_user = User::find($params['user_id']);
-        $comment_post = Post::find($params['post_id']);
-
         # Se já houverem 10 comentarios no periodo de 50 segundos,
         # nao permite que seja feito um novo
         $last_comments = Comment::where(
@@ -135,6 +130,14 @@ class CommentsController extends Controller
                 'message' => 'O limite de comentários em um determinado tempo foi excedido',
             ], 429);
         }
+
+        $params = $request->all();
+
+        # Pega o usario direto da basic auth
+        $params['user_id'] = auth()->user()->id;
+
+        $comment_user = User::find($params['user_id']);
+        $comment_post = Post::find($params['post_id']);
 
         # Se for pedido destaque e o dinheiro do usuario for maior que o da compra,
         # entao pode comprar destaque do comentario
@@ -189,6 +192,7 @@ class CommentsController extends Controller
     public function destroy($id)
     {
         $comment = Comment::find($id);
+        $user = auth()->user();
 
         if(!$comment) {
             return response()->json([
@@ -196,6 +200,15 @@ class CommentsController extends Controller
             ], 404);
         }
 
-        $comment->delete();
+        if (
+            $user->id == $comment->user->id
+            || $user->id == $comment->post->user->id
+        ) {
+            $comment->delete();
+        } else {
+            return response()->json([
+                'message'   => 'Você não pode apagar este comentário',
+            ], 405);
+        }
     }
 }
